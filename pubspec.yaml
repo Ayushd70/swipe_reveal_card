@@ -1,0 +1,35 @@
+name: swipe_reveal_card
+description: >-
+  A lightweight Flutter card widget with horizontal swipe-to-reveal actions.
+  Simple API, Material ink ripples, and scroll-position persistence.
+version: 0.1.0
+homepage: https://github.com/Ayushd70/swipe_reveal_card
+repository: https://github.com/Ayushd70/swipe_reveal_card
+issue_tracker: https://github.com/Ayushd70/swipe_reveal_card/issues
+topics:
+  - ui
+  - card
+  - swipe
+  - slidable
+  - widget
+
+screenshots:
+  - description: SwipeRevealCard at rest with chevron hint.
+    path: doc/screenshots/resting.png
+  - description: Actions revealed after swiping left.
+    path: doc/screenshots/revealed.png
+
+environment:
+  sdk: ^3.12.2
+  flutter: ">=3.16.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
