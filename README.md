@@ -5,7 +5,7 @@ A lightweight Flutter card with **horizontal swipe-to-reveal actions**.
 Swipe left on a card to uncover Edit / Archive / Delete-style actions — with a
 small, typed API and no heavy gesture controllers.
 
-![Demo](doc/demo.gif)
+![Demo](https://raw.githubusercontent.com/Ayushd70/swipe_reveal_card/main/doc/demo.gif)
 
 ## Features
 
@@ -20,7 +20,7 @@ small, typed API and no heavy gesture controllers.
 
 ```yaml
 dependencies:
-  swipe_reveal_card: ^0.1.0
+  swipe_reveal_card: ^0.1.1
 ```
 
 ```dart
@@ -81,7 +81,7 @@ SwipeRevealCard(
 
 | Resting | Actions revealed |
 | --- | --- |
-| ![Resting](doc/screenshots/resting.png) | ![Revealed](doc/screenshots/revealed.png) |
+| ![Resting](https://raw.githubusercontent.com/Ayushd70/swipe_reveal_card/main/doc/screenshots/resting.png) | ![Revealed](https://raw.githubusercontent.com/Ayushd70/swipe_reveal_card/main/doc/screenshots/revealed.png) |
 
 ## Example
 
