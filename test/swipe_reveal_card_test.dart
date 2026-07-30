@@ -6,11 +6,7 @@ void main() {
   testWidgets('renders child without actions', (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
-        home: Scaffold(
-          body: SwipeRevealCard(
-            child: Text('Hello card'),
-          ),
-        ),
+        home: Scaffold(body: SwipeRevealCard(child: Text('Hello card'))),
       ),
     );
 
@@ -32,11 +28,7 @@ void main() {
                 icon: Icons.edit,
                 onPressed: () => edited = true,
               ),
-              SwipeAction(
-                label: 'Delete',
-                color: Colors.red,
-                onPressed: () {},
-              ),
+              SwipeAction(label: 'Delete', color: Colors.red, onPressed: () {}),
             ],
             child: const SizedBox(
               height: 72,
