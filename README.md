@@ -93,12 +93,15 @@ Unit tests live under `test/`. Behavior is also specified with Gherkin
 [`bdd_widget_test`](https://pub.dev/packages/bdd_widget_test).
 
 ```bash
-# Regenerate Dart tests from feature files
+# After editing .feature files, regenerate and commit the Dart tests
 dart run build_runner build
+dart format .
 
 # Run all tests (unit + BDD)
 flutter test
 ```
+
+Generated BDD tests under `test/bdd/` are committed — CI does not regenerate them.
 
 ## Example
 
