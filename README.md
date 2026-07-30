@@ -23,7 +23,7 @@ small, typed API and no heavy gesture controllers.
 
 ```yaml
 dependencies:
-  swipe_reveal_card: ^0.1.1
+  swipe_reveal_card: ^0.1.2
 ```
 
 ```dart
@@ -85,6 +85,20 @@ SwipeRevealCard(
 | Resting | Actions revealed |
 | --- | --- |
 | ![Resting](https://raw.githubusercontent.com/Ayushd70/swipe_reveal_card/main/doc/screenshots/resting.png) | ![Revealed](https://raw.githubusercontent.com/Ayushd70/swipe_reveal_card/main/doc/screenshots/revealed.png) |
+
+## Testing
+
+Unit tests live under `test/`. Behavior is also specified with Gherkin
+(`.feature`) files under `test/bdd/` using
+[`bdd_widget_test`](https://pub.dev/packages/bdd_widget_test).
+
+```bash
+# Regenerate Dart tests from feature files
+dart run build_runner build
+
+# Run all tests (unit + BDD)
+flutter test
+```
 
 ## Example
 

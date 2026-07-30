@@ -39,6 +39,9 @@ jobs:
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
 
+      - name: Generate BDD tests
+        run: dart run build_runner build
+
       - name: Analyze package
         run: flutter analyze --fatal-infos
 

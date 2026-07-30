@@ -1,3 +1,7 @@
+## 0.1.2
+
+* Add BDD widget tests with Gherkin feature files (`bdd_widget_test`).
+
 ## 0.1.1
 
 * Use absolute GitHub image URLs in the README so the demo GIF and screenshots
