@@ -1,5 +1,8 @@
 # swipe_reveal_card
 
+[![CI](https://github.com/Ayushd70/swipe_reveal_card/actions/workflows/ci.yml/badge.svg)](https://github.com/Ayushd70/swipe_reveal_card/actions/workflows/ci.yml)
+[![pub package](https://img.shields.io/pub/v/swipe_reveal_card.svg)](https://pub.dev/packages/swipe_reveal_card)
+
 A lightweight Flutter card with **horizontal swipe-to-reveal actions**.
 
 Swipe left on a card to uncover Edit / Archive / Delete-style actions — with a
