@@ -48,6 +48,8 @@ class DemoHomePage extends StatefulWidget {
 }
 
 class _DemoHomePageState extends State<DemoHomePage> {
+  final SwipeRevealGroup _group = SwipeRevealGroup();
+
   final List<_DemoItem> _items = [
     const _DemoItem(
       id: '1',
@@ -70,7 +72,7 @@ class _DemoHomePageState extends State<DemoHomePage> {
     const _DemoItem(
       id: '4',
       title: 'Release notes',
-      subtitle: 'Draft the 0.1.0 changelog',
+      subtitle: 'Draft the 0.2.0 changelog',
       icon: Icons.notes_outlined,
     ),
   ];
@@ -96,6 +98,12 @@ class _DemoHomePageState extends State<DemoHomePage> {
         centerTitle: false,
         backgroundColor: scheme.surface,
         surfaceTintColor: Colors.transparent,
+        actions: [
+          TextButton(
+            onPressed: _group.closeAll,
+            child: const Text('Close all'),
+          ),
+        ],
       ),
       body: ListView.builder(
         padding: const EdgeInsets.symmetric(vertical: 8),
@@ -103,7 +111,9 @@ class _DemoHomePageState extends State<DemoHomePage> {
         itemBuilder: (context, index) {
           final item = _items[index];
           return SwipeRevealCard(
+            group: _group,
             storageKey: 'demo-${item.id}',
+            closeOnAction: true,
             onTap: () => _snack('Opened "${item.title}"'),
             actionsBackgroundColor: const Color(0xFFE8ECFF),
             actions: [

@@ -13,17 +13,22 @@ small, typed API and no heavy gesture controllers.
 ## Features
 
 - Swipe left to reveal one or more actions
+- `SwipeRevealController` for programmatic open / close / toggle
+- `SwipeRevealGroup` so only one card is open in a list
+- Auto-close after an action tap (`closeOnAction`)
+- Close when tapping the card body while open (`closeOnCardTap`)
+- Disable swipe with `enabled: false`
+- Custom action widgets via `SwipeAction.child`
 - Optional icons and custom action colors
 - Material ink ripples on card and action taps
 - Soft elevation with zero-margin “flush” mode
-- Scroll position restored via `PageStorageKey`
 - Zero third-party dependencies beyond Flutter
 
 ## Install
 
 ```yaml
 dependencies:
-  swipe_reveal_card: ^0.1.2
+  swipe_reveal_card: ^0.2.0
 ```
 
 ```dart
@@ -33,8 +38,11 @@ import 'package:swipe_reveal_card/swipe_reveal_card.dart';
 ## Usage
 
 ```dart
+final group = SwipeRevealGroup();
+
 SwipeRevealCard(
-  storageKey: 'task-1',
+  group: group,
+  closeOnAction: true,
   onTap: () => debugPrint('opened'),
   actions: [
     SwipeAction(
@@ -56,6 +64,22 @@ SwipeRevealCard(
 )
 ```
 
+### Controller
+
+```dart
+final controller = SwipeRevealController();
+
+SwipeRevealCard(
+  controller: controller,
+  actions: [SwipeAction(label: 'Edit', onPressed: () {})],
+  child: const ListTile(title: Text('Item')),
+);
+
+controller.open();
+controller.close();
+controller.toggle();
+```
+
 ### Plain card (no swipe)
 
 Omit `actions` (or pass `null`) for a simple elevated card:
@@ -72,6 +96,12 @@ SwipeRevealCard(
 | Parameter | Description |
 | --- | --- |
 | `actions` | List of `SwipeAction`s revealed on swipe |
+| `controller` | Programmatic open / close |
+| `group` | Keep only one card open among peers |
+| `enabled` | Disable swipe when `false` |
+| `closeOnAction` | Close after an action tap (default `true`) |
+| `closeOnCardTap` | Close when tapping an open card (default `true`) |
+| `onOpen` / `onClose` | Open / close callbacks |
 | `backgroundColor` | Card body color (default white) |
 | `actionsBackgroundColor` | Color behind action buttons |
 | `borderRadius` | Corner radius (default `10`) |

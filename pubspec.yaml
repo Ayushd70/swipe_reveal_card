@@ -2,7 +2,7 @@ name: swipe_reveal_card
 description: >-
   A lightweight Flutter card widget with horizontal swipe-to-reveal actions.
   Simple API, Material ink ripples, and scroll-position persistence.
-version: 0.1.2
+version: 0.2.0
 homepage: https://github.com/Ayushd70/swipe_reveal_card
 repository: https://github.com/Ayushd70/swipe_reveal_card
 issue_tracker: https://github.com/Ayushd70/swipe_reveal_card/issues
