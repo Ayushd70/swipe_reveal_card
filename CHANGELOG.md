@@ -1,3 +1,7 @@
+## 0.2.2
+
+* Fix dart format so CI formatting check passes.
+
 ## 0.2.1
 
 * Add `actionsExtentRatio` to clamp the actions pane width relative to the card.

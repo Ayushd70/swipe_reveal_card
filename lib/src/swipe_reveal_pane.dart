@@ -386,10 +386,11 @@ class _ActionColumn extends StatelessWidget {
                         ],
                         ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxWidth: (maxWidth -
-                                    inkPadding -
-                                    (action.icon != null ? iconSlot : 0.0))
-                                .clamp(0.0, maxWidth),
+                            maxWidth:
+                                (maxWidth -
+                                        inkPadding -
+                                        (action.icon != null ? iconSlot : 0.0))
+                                    .clamp(0.0, maxWidth),
                           ),
                           child: Text(
                             action.label,
