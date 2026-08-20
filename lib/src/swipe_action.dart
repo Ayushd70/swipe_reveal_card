@@ -14,7 +14,10 @@ class SwipeAction {
     this.child,
   });
 
-  /// Accessibility / semantics label (also used by the default button UI).
+  /// Accessibility / semantics label for the action button.
+  ///
+  /// Always announced to screen readers (including when [child] is set).
+  /// Also used as the visible text in the default button UI.
   final String label;
 
   /// Called when the user taps this action.

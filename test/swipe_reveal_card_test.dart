@@ -218,6 +218,73 @@ void main() {
     expect(pressed, isTrue);
   });
 
+  testWidgets('exposes action semantics from label', (tester) async {
+    final controller = SwipeRevealController();
+    addTearDown(controller.dispose);
+
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SwipeRevealCard(
+            controller: controller,
+            actions: [
+              SwipeAction(
+                label: 'Archive item',
+                onPressed: () {},
+                child: const Icon(Icons.archive),
+              ),
+            ],
+            child: const SizedBox(
+              height: 72,
+              child: Center(child: Text('Card')),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    controller.open();
+    await tester.pumpAndSettle();
+
+    expect(
+      tester.getSemantics(find.byIcon(Icons.archive)),
+      matchesSemantics(label: 'Archive item', isButton: true),
+    );
+  });
+
+  testWidgets('clamps actions pane with actionsExtentRatio', (tester) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SwipeRevealCard(
+            margin: EdgeInsets.zero,
+            actionsExtentRatio: 0.25,
+            actions: [
+              SwipeAction(
+                label: 'A very long action label that should be clamped',
+                onPressed: () {},
+              ),
+            ],
+            child: const SizedBox(
+              height: 72,
+              child: Center(child: Text('Card')),
+            ),
+          ),
+        ),
+      ),
+    );
+
+    final cardWidth = MediaQuery.sizeOf(
+      tester.element(find.byType(SwipeRevealCard)),
+    ).width;
+    final maxWidths = tester
+        .widgetList<ConstrainedBox>(find.byType(ConstrainedBox))
+        .map((box) => box.constraints.maxWidth)
+        .toList();
+
+    expect(maxWidths, contains(moreOrLessEquals(cardWidth * 0.25)));
+  });
+
   test('SwipeAction holds configured values', () {
     var pressed = false;
     final action = SwipeAction(

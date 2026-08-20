@@ -45,6 +45,7 @@ class SwipeRevealCard extends StatelessWidget {
     this.borderRadius = 10,
     this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     this.elevation = 4,
+    this.actionsExtentRatio = 0.5,
     this.storageKey,
     this.controller,
     this.group,
@@ -53,7 +54,10 @@ class SwipeRevealCard extends StatelessWidget {
     this.closeOnCardTap = true,
     this.onOpen,
     this.onClose,
-  });
+  }) : assert(
+         actionsExtentRatio > 0 && actionsExtentRatio <= 1,
+         'actionsExtentRatio must be in (0, 1].',
+       );
 
   /// Content displayed inside the card.
   final Widget child;
@@ -82,7 +86,16 @@ class SwipeRevealCard extends StatelessWidget {
   /// Soft shadow depth. Ignored when [margin] is zero.
   final double elevation;
 
+  /// Maximum width of the actions pane as a fraction of the card width.
+  ///
+  /// Defaults to `0.5`. Content narrower than this limit keeps its intrinsic
+  /// size; wider content is clamped so the swipe distance stays bounded.
+  final double actionsExtentRatio;
+
   /// Optional key for restoring horizontal scroll position via [PageStorage].
+  ///
+  /// When null, scroll offset is not persisted (cards without a key no longer
+  /// share an empty [PageStorage] bucket).
   final String? storageKey;
 
   /// Optional controller for programmatic open/close.
@@ -174,6 +187,7 @@ class SwipeRevealCard extends StatelessWidget {
         actionsBackgroundColor: actionsBackgroundColor,
         borderRadius: borderRadius,
         horizontalInset: resolvedMargin.horizontal,
+        actionsExtentRatio: actionsExtentRatio,
         storageKey: storageKey,
         controller: controller,
         group: group,

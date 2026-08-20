@@ -15,6 +15,7 @@ class SwipeRevealPane extends StatefulWidget {
     required this.borderRadius,
     this.actionsBackgroundColor,
     this.horizontalInset = 32,
+    this.actionsExtentRatio = 0.5,
     this.storageKey,
     this.controller,
     this.group,
@@ -24,7 +25,10 @@ class SwipeRevealPane extends StatefulWidget {
     this.onOpen,
     this.onClose,
     this.cardOnTap,
-  });
+  }) : assert(
+         actionsExtentRatio > 0 && actionsExtentRatio <= 1,
+         'actionsExtentRatio must be in (0, 1].',
+       );
 
   /// The foreground card content.
   final Widget child;
@@ -45,7 +49,12 @@ class SwipeRevealPane extends StatefulWidget {
   /// (`screenWidth - horizontalInset`). Typically `margin.horizontal`.
   final double horizontalInset;
 
+  /// Maximum width of the actions pane as a fraction of the card width.
+  final double actionsExtentRatio;
+
   /// Key used with [PageStorage] so scroll offset is restored.
+  ///
+  /// When null, no [PageStorageKey] is applied.
   final String? storageKey;
 
   /// Optional external controller for open/close.
@@ -258,6 +267,7 @@ class _SwipeRevealPaneState extends State<SwipeRevealPane> {
       0.0,
       screenWidth,
     );
+    final maxActionsWidth = cardWidth * widget.actionsExtentRatio;
     final radius = BorderRadius.circular(widget.borderRadius);
     final actionColor =
         widget.actionsBackgroundColor ?? const Color(0xFFF5F7FF);
@@ -292,7 +302,9 @@ class _SwipeRevealPaneState extends State<SwipeRevealPane> {
         physics: widget.enabled
             ? const ClampingScrollPhysics()
             : const NeverScrollableScrollPhysics(),
-        key: PageStorageKey<String>(widget.storageKey ?? ''),
+        key: widget.storageKey != null
+            ? PageStorageKey<String>(widget.storageKey!)
+            : null,
         child: DecoratedBox(
           decoration: BoxDecoration(color: actionColor, borderRadius: radius),
           child: Row(
@@ -306,11 +318,17 @@ class _SwipeRevealPaneState extends State<SwipeRevealPane> {
                   child: cardBody,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: _ActionColumn(
-                  actions: widget.actions,
-                  onPressed: _onActionPressed,
+              ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxActionsWidth),
+                child: ClipRect(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: _ActionColumn(
+                      actions: widget.actions,
+                      maxWidth: maxActionsWidth - 20,
+                      onPressed: _onActionPressed,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -322,48 +340,71 @@ class _SwipeRevealPaneState extends State<SwipeRevealPane> {
 }
 
 class _ActionColumn extends StatelessWidget {
-  const _ActionColumn({required this.actions, required this.onPressed});
+  const _ActionColumn({
+    required this.actions,
+    required this.maxWidth,
+    required this.onPressed,
+  });
 
   final List<SwipeAction> actions;
+  final double maxWidth;
   final ValueChanged<SwipeAction> onPressed;
 
   @override
   Widget build(BuildContext context) {
     final primary = Theme.of(context).colorScheme.primary;
+    // InkWell horizontal padding (8 * 2) plus optional icon + gap.
+    const inkPadding = 16.0;
+    const iconSlot = 24.0;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for (final action in actions)
-          InkWell(
-            onTap: () => onPressed(action),
-            borderRadius: BorderRadius.circular(8),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-              child:
-                  action.child ??
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (action.icon != null) ...[
-                        Icon(
-                          action.icon,
-                          size: 18,
-                          color: action.color ?? primary,
+          Semantics(
+            button: true,
+            label: action.label,
+            excludeSemantics: true,
+            child: InkWell(
+              onTap: () => onPressed(action),
+              borderRadius: BorderRadius.circular(8),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                child:
+                    action.child ??
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (action.icon != null) ...[
+                          Icon(
+                            action.icon,
+                            size: 18,
+                            color: action.color ?? primary,
+                          ),
+                          const SizedBox(width: 6),
+                        ],
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: (maxWidth -
+                                    inkPadding -
+                                    (action.icon != null ? iconSlot : 0.0))
+                                .clamp(0.0, maxWidth),
+                          ),
+                          child: Text(
+                            action.label,
+                            softWrap: false,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: action.color ?? primary,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
                         ),
-                        const SizedBox(width: 6),
                       ],
-                      Text(
-                        action.label,
-                        style: TextStyle(
-                          color: action.color ?? primary,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+              ),
             ),
           ),
       ],

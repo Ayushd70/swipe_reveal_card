@@ -22,13 +22,15 @@ small, typed API and no heavy gesture controllers.
 - Optional icons and custom action colors
 - Material ink ripples on card and action taps
 - Soft elevation with zero-margin “flush” mode
+- `actionsExtentRatio` to keep swipe distance bounded on wide content
+- Screen-reader labels on every action via `SwipeAction.label`
 - Zero third-party dependencies beyond Flutter
 
 ## Install
 
 ```yaml
 dependencies:
-  swipe_reveal_card: ^0.2.0
+  swipe_reveal_card: ^0.2.1
 ```
 
 ```dart
@@ -107,8 +109,12 @@ SwipeRevealCard(
 | `borderRadius` | Corner radius (default `10`) |
 | `margin` | Outer margin; `EdgeInsets.zero` disables shadow |
 | `elevation` | Shadow depth when margin is non-zero |
-| `storageKey` | Restores horizontal scroll offset |
+| `actionsExtentRatio` | Max actions width as a fraction of card width (default `0.5`) |
+| `storageKey` | Restores horizontal scroll offset (omit to skip persistence) |
 | `onTap` | Card body tap callback |
+
+Action buttons announce `SwipeAction.label` to screen readers, including when
+you supply a custom `SwipeAction.child`.
 
 ## Screenshots
 

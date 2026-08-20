@@ -1,3 +1,11 @@
+## 0.2.1
+
+* Add `actionsExtentRatio` to clamp the actions pane width relative to the card.
+* Expose each action with button `Semantics` using `SwipeAction.label` (including
+  custom `child` actions).
+* Apply `PageStorageKey` only when `storageKey` is set, so cards without a key
+  no longer share an empty storage bucket.
+
 ## 0.2.0
 
 * Add `SwipeRevealController` for programmatic open / close / toggle.
